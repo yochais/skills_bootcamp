@@ -8,7 +8,7 @@ output:
     toc_float: true
 ---
 
-Developed by Cayce Hook, with thanks to Anna Khazenzon and previous authors of R tutorial materials, including Paul Thibodeau, Mike Frank, Benoit Monin, Ewart Thomas, Michael Waskom and Steph Gagnon, Dan Birman, Natalia Velez, Kara Weisman, Andrew Lampinen, Joshua Morris, and Yochai Shavit.
+Developed by Cayce Hook, with thanks to Anna Khazenzon and previous authors of [R tutorial materials](http://web.stanford.edu/class/psych252/tutorials/), including Paul Thibodeau, Mike Frank, Benoit Monin, Ewart Thomas, Michael Waskom and Steph Gagnon, Dan Birman, Natalia Velez, Kara Weisman, Andrew Lampinen, Joshua Morris, and Yochai Shavit.
 
 
 # Introduction to the tutorial
@@ -1142,10 +1142,19 @@ Tomorrow's tutorial will begin to introduce `ggplot()`, as well as topics like u
 
 # A few extra resources 
 
-* To learn how to write R code with good style--that is, code that's readable and pleasant to look at--please read this brief [guide](http://adv-r.had.co.nz/Style.html).
+* Take a moment to [learn how to write R code with good style](http://adv-r.had.co.nz/Style.html)--that is, code that's readable and pleasant to look at.
 
-* Check out dplyr's [documentation](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) for more info on what you can do with dplyr (and how to do it).
+* Check out [dplyr's documentation](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) for more info on what you can do with dplyr (and how to do it).
 
-* For a reference guide to plotting data with ggplot, try the [R Cookbook](http://www.cookbook-r.com/Graphs/). Personally, I've found the author's published book, the _R Graphics Cookbook_, particularly helpful.  
+* For a reference guide to [plotting data with ggplot, try the R Cookbook](http://www.cookbook-r.com/Graphs/). Personally, I've found the author's published book, the _R Graphics Cookbook_, particularly helpful.  
+
+
+* For a general reference guide to [using R for data science](http://r4ds.had.co.nz/index.html), i.e. all the sorts of stuff we've been doing, look at Grolemund & Wickham's eponymous [book](http://r4ds.had.co.nz/index.html). (The whole book is online!) 
+
+* `tidyr` is a handy package for [reshaping data from wide to long format and back](https://blog.rstudio.org/2014/07/22/introducing-tidyr/).
+
+* `broom` is a handy package for [turning default output from regressions and t-tests into organized data frames](https://github.com/dgrtwo/broom).
+
+* It's possible (and can be convenient) to [set up a git pane and make commits directly from R.](http://happygitwithr.com/) 
 
 
