@@ -1,0 +1,1151 @@
+---
+title: "Introduction to R Syntax"
+output:
+  html_document:
+    highlight: pygments
+    theme: flatly
+    toc: true
+    toc_float: true
+---
+
+Developed by Cayce Hook, with thanks to Anna Khazenzon and previous authors of R tutorial materials, including Paul Thibodeau, Mike Frank, Benoit Monin, Ewart Thomas, Michael Waskom and Steph Gagnon, Dan Birman, Natalia Velez, Kara Weisman, Andrew Lampinen, Joshua Morris, and Yochai Shavit.
+
+
+# Introduction to the tutorial
+
+
+**R** is a programming language that is specifically designed for statistical computation. It is powerful, flexible, and widely used in the statistical community. The aspects that make R so powerful and flexible, however, contribute to a learning curve that is steeper than what you might find in "point-and-click" programs (like SPSS). This tutorial provides an introduction to R and RStudio, with an eye towards empowering you to quickly get started with data cleaning, visualization, and analysis. 
+
+---------------------------
+
+What am I doing? Why?
+-----------------------------
+Your basic goal when you're working with data in R is to write out a **script** that documents and executes every step of your interaction with your data, via lines of **code**. You can then run this code in the **console**, either bit by bit (starting from the top, and working your way down) or all at once. Your script will ultimately include every step of data processing and analysis:
+
+* __Formatting datasets__ (e.g., making new variables based on other variables in your dataset, isolating subsets of your dataset, comparing different datasets, ...)
+* __Making plots__ 
+* __Summarising results__ (e.g., finding means, assessing variability and distributions, ...)
+* __Running statistical analyses__ (e.g., t-tests, chi-squared tests, regressions, ...)
+
+
+Your script should also include some notes about what you're doing, for future reference. One of the best ways to do this is by creating an R Markdown document, like this one, where you can include both prose (like this current paragraph) and code. 
+This has so many advantages over other ways of analyzing data!
+
+* You have a record for yourself - forever! - for working on analyses over time, quickly analyzing similar new datasets, and reconstructing abandoned projects
+* You can automate as much of the data processing, analysis, plotting, and even reporting process as you want to, saving you from copying and pasting and making stupid mistakes 
+* You can easily give your script to other people as a guide for them to understand or help you with your analyses, build on your findings, reanalyze your data, attempt to replicate your studies, etc.
+* You can use version control on your analysis code (e.g., using [github](https://github.com/)), make your own functions and packages tailored to your own projects and needs, make web apps for visualizing your data, and even write entire manuscripts in the R/RStudio environment. Learning R can be a springboard for all of these skills and projects.
+
+Let's get started!
+
+-----------------------------
+
+# Basic interaction with the R console
+
+R as calculator
+-----------------------------
+
+You can treat R like a calculator for basic computations. Just type some mathematical expression into the bottom pane--the  console--next to the `>` symbol, and hit enter. The result will be displayed on the following line.
+
+```{r basic_calculator}
+1 + 2
+13 / 2
+2 ^ 6
+5 * (2 + 3)
+```
+
+Where do the numbers go?
+-----------------------------
+
+When you evaluate an expression like `1 + 2` in the console, the result is displayed on the screen but doesn't get saved anywhere--just like on an ordinary calculator. Of course, R is a programming language, so it is much more powerful than a basic calculator. A major aspect of computing with R involves the assignment of values to *variables.*
+  
+ 
+
+-----------------------------
+
+# Variable Assignment
+
+
+There are two (almost) equivalent ways to assign a value to a variable, using `=` and `<-`:
+
+```{r variable_assignment_1}
+cohort_size = 14
+cohort_size <- 14
+
+
+#NOTE: It is important not to confuse variable assignment with a statement about equality. In your head, you should say "set cohort_size to 14" or perhaps "cohort_size gets 14", but not "cohort_size is equal to 14". 
+
+# Although using `=` to assign variables is the norm in many other programming languages, the standard in R is to use `<-`* for variable assignment as it makes the action that is being performed more obvious. 
+```
+
+As you work on an R session you will produce a collection of “objects” held in the computer’s memory (or for the purposes of R, your "workspace"). Check the top-right pane in RStudio under 'environment' to view the objects that are currently stored in your workspace.
+
+
+You should see `cohort_size` is now one of these objects the computer is keeping track of, and its value is `14`.  It will remain stored as `14` unless and until you reassign `cohort_size`. 
+
+
+```{r variable_assignment_2}
+cohort_size # prints the current value of cohort_size
+cohort_size + 2 
+```
+
+What value is `cohort_size` set to now? After running these two lines of code, type `cohort_size` into the console and hit enter. 
+```{r}
+# 
+cohort_size
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+#
+```
+
+Even though we added 2 to it, `cohort_size` is still set to 14, because we didn't reassign its value. 
+
+Let's do that now:
+
+```{r reassign}
+cohort_size <- cohort_size + 2
+cohort_size
+```
+
+
+
+
+
+```{r eval=FALSE}
+# CHECK YOUR UNDERSTANDING: 
+
+# What value is `a` set to after running each line of this code?
+# What value is `b` set to after running each line?
+
+a <- 2 
+b <- 2
+
+a + 2
+a + 2
+a + 2
+a + 2
+
+
+b <- b + 2
+b <- b + 2
+b <- b + 2
+b <- b + 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Answer: 
+# `a` remains 2,2,2,2,2; `b` changes from 2 to 4, 6, 8 and finally 10.
+```
+
+We can keep reassigning the value of a variable to anything we want:
+```{r reassign2}
+cohort_size <- 208198.4
+cohort_size
+```
+
+So far we've only been dealing with numbers, but there are other data types as well.
+
+
+For instance, we could assign character (aka string) values, with quotation marks:
+```{r reassign_string}
+cohort_size <- "average"
+cohort_size
+
+my_name <- "Cayce"
+
+stanford_phone <- "6507232300" 
+
+```
+
+We can also assign logical values, TRUE and FALSE:
+```{r reassign_logical}
+alive <- TRUE
+asleep <- FALSE
+```
+
+Again, you could make all of these variable assignments with `=`, but we encourage you to use `<-`. In case you're wondering, you test for equality with two equal signs (`==`), which you should read as ('is equal to'). It does something completely different than `=`:
+
+```{r equality_tests}
+2 == 2
+2 == 3
+
+cohort_size == "average"
+cohort_size == "small"
+```
+
+(While we're at it, you can also compare numbers with `>`, `<`, `!=`, `<=`, and `>=`, which return TRUE or FALSE as well). 
+
+```{r comparison_tests}
+2 < 3
+3 <= 3
+3 != 4
+```
+
+-----------------------------
+
+
+
+```{r eval = FALSE}
+# APPLY YOUR KNOWLEDGE:
+# Can you explain what's happening at each line of code below?
+
+a <- 10
+b <- 20
+a <- b
+print(a)
+
+a <- "b"
+print(a)
+
+a <- 10
+a < b
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# `a` is set to 10, 
+# `b` is set to 20, 
+# `a` is set to the value of `b` (or "`a` gets `b`"), 
+# we print the value of `a` (which is now 20). 
+
+# `a` is set to "b" (the character),
+# we print the value of `a` (which is now "b").
+
+# `a` is set to 10 again.
+# the computer evaluates the statement `a < b` (that is, 10 < 20), and returns the logical value TRUE. (TRUE isn't saved anywhere, though--it's just printed in the console.)
+
+```
+
+
+After assigning variables, we can now use them in calculations:
+```{r calculate_with_variables}
+
+devo <- 2
+affective <- 4
+cog <- 1
+social <- 4
+neuro <- 3
+
+
+cohort_size = devo + affective + cog + social + neuro 
+cohort_size # print the result
+
+
+# Of course, we can do completely arbitrary calculations with any of our variables too--R will oblige:
+apples <- (devo * (cog - neuro)^3 + social * devo + cohort_size + 12) / (cog - affective)
+oranges <- -(3 * 2)
+
+apples == oranges 
+```
+
+## Naming variables 
+
+When writing code to perform analysis, you should use descriptive names. Code where things are named, `subject_id`, `condition`, and `rt` will make **much** more sense than 'v1', 'v2', and 'v3' when you read it again 4 months later as you write up the paper.
+
+There are a few additional rules for variable names. 
+
+The first character must be a letter. You can't use spaces. **Case matters!**  
+
+
+```{r case_matters}
+a <- 10
+A <- 12
+a == A
+
+subid <- 13
+subID <- 26
+subID == subid
+
+cohort_size == "Average"
+```
+
+R can be picky. 
+For instance, failing to put quotation marks around a string will break your code. (Try typing `cohort_size == average` in the console). 
+Why do you think it doesn't work?
+```{r}
+ # 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ #
+```
+
+(In this case, R thinks you're talking about a different object called `average`, and throws an error since you haven't defined any such object.)
+
+
+Now try `Cohort_size == "average"`). What's wrong here?
+
+```{r}
+ # 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ #
+```
+
+
+(In this case, R looks for an object named `Cohort_size`, but of course from R's point of view, only `cohort_size` exists. Small typos like this can cause a lot of frustration, so keep an eye out!)
+
+
+When you want something like a phrase in your variable name, you can use `_` and `.` Whatever you choose, it's best to be clear and consistent.
+
+```{r consistency}
+# GOOD:
+barack.age <- 55
+michelle.age <- 52
+
+# NOT SO GOOD:
+ObamaAge=55
+michelle_Age<-52
+
+```
+
+
+
+
+---------------------------
+
+# Using functions
+
+
+We can use *functions* to perform more complex operations. Functions specify a transformation from one or more inputs (called *arguments* or *parameters*) to one or more outputs (or *return values*). 
+
+You *call* a function by writing its name followed by parentheses, with any arguments going inside the parentheses. There are some basic mathematical functions built into R that operate on numbers:
+
+```{r math_functions}
+abs(-4)
+sqrt(64)
+log(1.75)
+```
+
+Let's look at the function `c()`, which stands for *concatenate*. This takes a sequence of arguments and sticks them together into a *vector*.  Vectors are immensely useful.
+
+```{r basic_vectors}
+# Create vectors for the forecasted high temperatures for San Francisco and Palo Alto over the next week:
+paloalto_highs <- c(73, 81, 88, 84, 79, 75, 74)
+sf_highs <- c(70, 75, 85, 79, 72, 67, 71)
+
+paloalto_highs
+sf_highs
+```
+
+
+Now we can do things like take the mean, with--you guessed it--`mean()`, and standard deviation with `sd()`. We could also look at each vector's  `length()`, its `max()` or `min()` values, or its `median()` or `range()`. 
+
+```{r mean_sd}
+mean_sf <- mean(sf_highs)
+sd(sf_highs)
+
+mean_pa <- mean(paloalto_highs)
+sd(paloalto_highs)
+
+
+
+# APPLY YOUR KNOWLEDGE:
+# 1) Find the median and range for these vectors.
+# 2) Find the length of the vectors. What does the length refer to? 
+# 3) On average, by how many degrees will Palo Alto be warmer than SF over the next week?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Answers:
+
+# 1) SF median = 72, range = (67, 85); PA median = 79, range = (73, 88)
+
+# 2) Length is 7; there are 7 entries in each vector
+
+# 3) mean_pa - mean_sf = 5
+```
+
+## On missing data 
+
+Functions can have multiple arguments. Sometimes, functions have optional arguments that come with default values. When values are not passed for these arguments, they take the default value, which can be found when you look at the help for that function.  
+
+Pull up the help document for `mean()` by entering `?mean` in the console. 
+
+Most statistical functions in R, including `mean()`, have built-in missing-value handling. Because missing data is common with real-world data, there is a special object in R to stand for it called `NA`. Functions like `mean` have an optional argument `na.rm` which tells the function whether it should just ignore these values. (`rm` stands for "remove", just like in the terminal.) 
+
+`na.rm` is set to `FALSE` by default, so a vector with missing values will have a mean of NA (to indicate that the normal mathematical procedure failed on these particular data):
+
+```{r na.rm_false}
+a <- c(2, 6, NA, 8)
+mean(a)
+```
+
+However, you can handle the missing data by setting `na.rm` to `TRUE`, which omits any `NA` items from the calculation.
+
+```{r na.rm_true}
+mean(a, na.rm = TRUE)
+
+```
+---------------------------
+
+# Vectors
+
+We've just been using one of the most basic data structures, which is called a *vector*. Vectors are an ordered group of elements with a single dimension. All of the values have to be the same data type (i.e., numeric, character, or logical). 
+
+You get a vector when you use the `c()` function:
+
+```{r c_vector}
+c(1, 2, 3, 4, 5, 6)
+```
+
+```{r sequences}
+# DIGRESSION: There are other ways to get an equivalent sequence. You can use the `:` operator:
+1:6
+
+# You can also use the function seq():
+seq(1,6)
+```
+
+You can apply mathematical expressions to entire vectors.
+
+For instance, we can calculate how many degrees hotter Palo Alto will be on each day of the following week:
+
+```{r vectorized_math}
+
+temp_difference <- paloalto_highs - sf_highs
+temp_difference
+
+# CHECK YOUR KNOWLEDGE:
+# Do you understand what happened here? How was each entry in `temp_difference` calculated?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# (The first entry in `sf_highs` was subtracted from the first entry in `paloalto_highs`, and this value stored in the first entry in `temp_difference`, and this was repeated for each of the remaining entries in the vector)
+
+
+
+
+# APPLY YOUR KNOWLEDGE. 
+# The formula for translating degrees F to C is celsius = (fahrenheit - 32) * (5/9)
+# Write a line of code that applies this formula to paloalto_highs, and store the result in a new variable called paloalto_highs_c.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Answer: paloalto_highs_c <- (paloalto_highs - 32) * (5/9)
+
+```
+
+
+Sometimes it's useful to pull specific elements out of a vector. To do this, you *index* by writing the name of the vector and then adding square brackets (`[ ]`)  with the position of the item you want (starting at 1). 
+
+```{r index_vector}
+snacks <- c("cookies", "ice cream", "cake", "chocolate bar", "gummi worms", "key lime pie")
+snacks[3]
+```
+
+You can also use `:` or `c()` to index multiple elements:
+```{r index_vector2}
+snacks[3:5]
+snacks[c(1,6,4)]
+```
+
+And finally, you can use brackets with logical statements to find a subset of your vector:
+```{r logical_index}
+paloalto_highs[paloalto_highs < 80] # this will return all the entries in `paloalto_highs` where the value is less than 80
+
+
+# APPLY YOUR KNOWLEDGE:
+# Using brackets and the function `length()`, write a line of code that returns a vector containing all of the days next week in which Palo Alto will reach at least 80 degrees F. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Answer: paloalto_highs[paloalto_highs > 80]
+
+```
+
+
+---------------------------
+
+# Data frames
+
+Most often when doing statistics with R, you'll be using *data frames.* Technically, a data frame is a list of vectors. It’s similar in appearance to a basic spreadsheet in Excel or SPSS, where you might represent your study variables in columns and your observations in rows. 
+
+It's possible to make a data frame from scratch with the function `data.frame()` (though in practice, you will probably not do this often):
+
+```{r dataframe_intro}
+albums = data.frame(album = c("Speakerboxx/The Love Below", "Life After Death", "All Eyez on Me", 
+                              "Licensed to Ill", "Stankonia", "Ready to Die", "R U Still Down? Remember Me", 
+                              "Ill Communication"), 
+                    artist = c("Outkast", "The Notorious B.I.G.", "2Pac", "Beastie Boys", 
+                               "Outkast", "The Notorious B.I.G.", "2Pac", "Beastie Boys"), 
+                    year = c(2003, 1997, 1996, 1986, 2000, 1994, 1997, 1994), 
+                    sales_millions = c(11.4, 10.2, 9, 9, 4, 4, 4, 3),
+                    solo = c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE))
+albums
+```
+
+
+### Subsetting data
+
+Every time you want to do something with a column in a data frame, you use the `$` to specify the data frame and column you want to act upon. Since these columns are really vectors, what we've learned about brackets and functions also applies here. So, we can use brackets to return all the observations where a certain condition is true: 
+
+```{r get_a_column}
+albums$artist # pull out a specific vector
+
+albums$artist[albums$sales_millions > 10] # subset a variable based on a logical statement
+
+```
+
+You can also use brackets directly on the dataframe, but since it has two dimensions, the brackets contain a comma. Whether you put numbers before or after the comma specifies whether you want to do stuff to your data frame's  *rows* or *columns*: 
+```{r}
+albums [1, ] # returns the first row of `albums`
+albums [, 1] # returns the first column 
+
+albums[1:3, 2:4] # returns a new dataframe containing rows 1-3 and columns 2-4 
+```
+
+You can use this to get rid of variables:
+```{r}
+albums[, -3] # returns a new dataframe with the original third column of `albums` removed
+albums [-3, ] # returns a new dataframe with the original third row of `albums` removed
+```
+
+### Creating new variables
+
+You can add new columns (i.e. variables) to the data frame with `$`: 
+
+```{r expand_data frame}
+albums$sales <- albums$sales_millions*1000000
+albums$language <- "English" # if you enter a single value rather than a vector, every observation will be set to that value
+
+albums
+
+
+# APPLY YOUR KNOWLEDGE:
+# Write a line of code to add a new column to `albums` called `years_since_release` and populate it with the number of years it's been since the album came out. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# You should have written something like:  albums$years_since_release <- 2016 - albums$year
+
+```
+
+### Recoding variables
+
+Say we're interested in making a new grouping variable to represent the decade an album came out ("80s", "90s", or "00s"). It's possible to recode variables using brackets:
+
+```{r}
+# First make an empty placeholder for the new variable:
+albums$decade <- NA 
+
+# Then set each of the values according to whatever subsetting criteria are relevant:
+albums$decade[(albums$year >= 1980) & (albums$year < 1990)] <- "80s"
+albums$decade[(albums$year >= 1990) & (albums$year < 2000)] <- "90s"
+albums$decade[(albums$year >= 2000) & (albums$year < 2010)] <- "00s"
+
+```
+
+This can be confusing to look at at first, so I'll give another example. 
+
+Say I want to add a variable `feud` whose value depends on whether the artist was involved in the [90s East Coast–West Coast hip hop rivalry](https://en.wikipedia.org/wiki/East_Coast%E2%80%93West_Coast_hip_hop_rivalry). That is, I want `feud` to be "TRUE" if the artist is The Notorious B.I.G. or Tupac, and "FALSE" otherwise. 
+
+Here's one way to do it:
+
+```{r}
+albums$feud <- FALSE
+albums$feud[albums$artist == "2Pac"] <- TRUE
+albums$feud[albums$artist == "The Notorious B.I.G."] <- TRUE
+
+albums
+```
+
+```{r}
+# APPLY YOUR KNOWLEDGE:
+
+# Try making a new variable called 'born_yet' which is set to TRUE if the album came out after you were born, and FALSE otherwise.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# My answer:
+# albums$born_yet <- FALSE
+# albums$born_yet[albums$year >= 1989] <- TRUE
+
+```
+
+
+### A note on `$`
+
+Remember, you have to use `$` when referring to a variable in a data frame. 
+
+Try `mean(sales_millions)` or even `albums$artist[sales_millions > 10]`. Why don't these work?
+
+
+Look back over at your Environment pane. There's now a category, Data, that contains `albums`. 
+There's also the Values category, which contains all of the other random objects we've made throughout this lesson. 
+
+The object `sales_millions` only exists in the data frame `albums`, rather than in your broader 'Global Environment'.
+
+It's useful to keep variables inside their own data frames, because it enables you to, e.g., simultaneously work on multiple datasets that contain variables with the same name (`albums$sales` vs. `pizza$sales`).
+
+-------------------------
+
+
+# Where do the numbers go? (Part II)
+
+Right now, our data frame only exists in R's memory, and its contents depend exactly upon which lines of code we've run during this R session (and in what order). 
+
+
+What if we wanted to save `albums` to share with a friend who only has Excel or SPSS? 
+
+R can write data frames to .csv files, which are easily opened by many different programs and are a useful format in which to share data. 
+
+To begin, we first have to tell R where to save files.
+
+### Setting your working directory
+Remember our discussion of working directories in the Terminal/BASH tutorial? The same general ideas apply here. Whenever you use R, you're in some *working directory*, where R will default to saving files (and searching for them when you try to open a file). 
+
+Type `getwd()` to discover your current working directory.
+
+
+To set your working directory, type `setwd()` with the file path in quotation marks inside the parentheses, e.g.
+
+```{r setwd_desktop}
+setwd("~/Desktop")
+```
+(You can set your working directory by hand through *Session > Set Working Directory > Choose Directory*.) 
+
+(In the future, you should set your working directory to a project-specific folder with `setwd()` whenever you start working on a new project in R. If you leave it as "~/Desktop" things will get cluttered quickly.) 
+
+### Writing a .csv
+
+Now we know where our file will be saved, let's `write.csv()`. The first argument is the R data frame you want to save, the second argument is the filename you want to save it under, and the third argument specifies that we don't want to save row names. 
+
+```{r}
+write.csv(albums, "albums.csv", row.names = FALSE)
+```
+
+Go find `albums.csv` and open it up in Excel. Make some changes to it, save it, and close the file.
+
+Now click on `albums` in the Environment pane. Do your changes to the document show up in R?
+
+```{r }
+#
+
+
+
+
+
+
+
+
+
+#
+```
+
+Now run:
+```{r where_do_the_numbers_go}
+albums$artist <- c("Rihanna", "Beyonce", "Taylor", "Britney", "Adele", "Cher", "Whitney", "Celine") 
+head(albums) # see that we've changed the values for 'artist'
+```
+
+Reopen the .csv file in Excel. Did this change show up?
+
+```{r }
+#
+
+
+
+
+
+
+
+
+
+#
+```
+
+
+What R has in its memory is distinct from the original .csv file. This is a good thing, since it allows you to manipulate your dataset (which inevitably involves making mistakes and/or deleting variables or observations) while preserving the original, complete raw data. 
+
+Now replace our data frame, `albums`, with the contents of `albums.csv` using `read.csv`:
+
+### Reading from a .csv
+
+```{r readcsv}
+albums <- read.csv("albums.csv")
+head(albums)
+```
+
+The correct artist names have been restored! 
+
+
+---------------
+
+
+# Manipulating data frames with dplyr
+
+
+We just reviewed a bunch of different actions you can take with data frames:
+
+* filtering observations based on some criterion 
+* transforming variables
+* summarizing data with functions like `mean()`
+
+We can do all of these things (and more) using functions from the R package `dplyr`, and we can chain it all together with the pipe operator, `%>%`. Pipes free us from having to precede every variable with `dataframe$`--instead, each line operates on  the data frame that was fed into it from the previous pipe. Hopefully this will be clearer with examples:
+
+```{r}
+# First let's reset the value of `albums`:
+albums = data.frame(album = c("Speakerboxx/The Love Below", "Life After Death", "All Eyez on Me", 
+                              "Licensed to Ill", "Stankonia", "Ready to Die", "R U Still Down? Remember Me", 
+                              "Ill Communication"), 
+                    artist = c("Outkast", "The Notorious B.I.G.", "2Pac", "Beastie Boys", 
+                               "Outkast", "The Notorious B.I.G.", "2Pac", "Beastie Boys"), 
+                    year = c(2003, 1997, 1996, 1986, 2000, 1994, 1997, 1994), 
+                    sales_millions = c(11.4, 10.2, 9, 9, 4, 4, 4, 3),
+                    solo = c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE))
+
+# If you haven't yet installed dplyr, un-comment and run the following:
+# install.packages("dplyr")
+
+# Load dplyr 
+library(dplyr)
+
+
+
+# Here we'll do two of the things we did above--transforming variables and filtering out observations--using pipes and dplyr functions this time:
+
+albums2 <- albums %>%                             
+  mutate(sales = sales_millions * 1000000) %>%    
+  filter(sales > 10000000)                        
+
+# The first line specifies that we're modifying `albums` and putting the result in `albums2`.
+# The second line takes `albums` and creates a new variable, `sales`, and passes this updated dataframe to the next line.
+# The third line takes the dataframe from the previous step, and throws out the rows where `sales` is less than or equal to 10,000,000.
+# After the final line has finished running, the final dataframe is put in `albums2`.
+# No changes are made to the contents of `albums`. 
+
+```
+
+## group_by and summarize
+
+dplyr can also be used to quickly summarize data by different grouping variables. 
+
+In this dataset, who's the bestselling artist?
+
+To find out, we group by `artist`, calculate each artist's total album sales with `summarize()`, arrange the rows in descending order of sales with `arrange()`, and save the result in `result`:
+
+```{r more_dplyr}
+result <- albums %>%                               # take initial data from `albums`, put result in `result`       
+  mutate(sales = sales_millions * 1000000) %>%     # make a new variable `sales` by transforming `sales_millions`
+  group_by(artist) %>%                             # group the data by `artist`
+  summarize(total_sales = sum(sales)) %>%          # add up the `sales` for each artist and save in `total_sales`
+  arrange(desc(total_sales))                       # sort the rows in descending order of `total_sales` 
+
+head(result)
+```
+
+
+```{r eval = FALSE}
+# APPLY YOUR KNOWLEDGE:
+# How would you change this code if we instead wanted to compare the total sales, in millions, of solo artists vs. group artists?
+
+result <- albums %>%                                
+  mutate(sales = sales_millions * 1000000) %>%     
+  group_by(artist) %>%                             
+  summarize(total_sales = sum(sales)) %>%          
+  arrange(desc(total_sales)) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ANSWER:
+# result <- albums %>%                                
+#  group_by(solo) %>%                             
+#  summarize(total_sales = sum(sales_milions))
+```
+
+
+# Analyzing Stroop data
+
+Now we'll try working with a bigger dataset. 
+
+Let's also start typing and running commands in a new R script.
+
+Go to *File > New File > R Script* and make a new .R file.  
+
+Our workspace is looking pretty cluttered. Let's clear it with `rm(list=ls())`. On the first line of your new script, type:
+
+```{r}
+rm(list=ls())
+```
+
+and press command-Enter (or ctrl-Enter for Windows).
+
+
+It's a good idea to do clear your workspace every time you start working on a new script.
+
+
+On the next line, copy over the following, highlight it, and hit command-Enter/ctrl-Enter:
+```{r load_stroop}
+library(dplyr)
+library(ggplot2) # first `run install.packages("ggplot2")` if you haven't done so yet
+
+stroop <- read.csv("https://raw.githubusercontent.com/dbirman/bootcamp-data/master/stroop.csv")
+```
+
+When you load in a dataset, you'll want to explore it a bit so you get a feel for the kind of data it contains (and to ensure that it was loaded properly). You can type `View(stroop)` or click on `stroop` in the Environment pane to view the dataset.
+
+Additionally, some of the basic functions you can use to explore the data are `str()`, `head()`, and `summary()`. These all do somewhat different things, which you can likely deduce from their output and help files:
+
+```{r explore_stroop}
+str(stroop)
+head(stroop)
+summary(stroop)
+```
+
+By way of introduction, this Stroop data comes from a battery of about ~60 tasks the Poldrack lab runs that are ostensibly related to self-regulation. Each participant completes all 60 tasks, and the lab is investigating whether there is consistent structure to the dependent variables. So although the Stroop task by itself is simple, this data comes from a much bigger, more interesting project.
+
+There's still a lot of information in this dataset. Spend a moment looking at it--what do the columns represent? What do the rows represent? 
+
+If you wanted to calculate the mean Stroop effect across all participants--that is, the difference in average reaction time, `rt`, between the incongruent and congruent trials--how would you go about this? 
+
+Are there any observations you would filter out beforehand?
+
+Aside from looking at the structure of the dataframe, it might be helpful to visualize the data in some way.  
+
+## (Quick) plotting
+
+In this course, you'll learn how to plot with `ggplot2`, a powerful package that enables the construction of highly customizable and visually pleasing graphs. However, this power comes with some complexity, and ggplot() has a slight learning curve.
+
+For now, I'll just point out the existence of `qplot()`, a ggplot2 helper function that can be used to create the most common graph types.
+
+For instance, we can create a boxplot of the stroop reaction time results with:
+
+```{r}
+qplot(x = condition, y = rt, data = stroop, geom = "boxplot")
+
+```
+
+Or a histogram with:
+
+```{r}
+qplot(x = rt, data = stroop, geom = "histogram")
+
+# As an aside, here's the syntax for a histogram in base R graphics rather than ggplot2:
+hist(stroop$rt)
+```
+
+## Filtering and summarizing
+
+After looking at the structure of the dataset, as well as these plots, what criteria will you use for excluding trials? 
+
+* Note that some rt trials are coded -1 to represent when the participant didn't press any key. We don't want to include these -1s in our averages!
+* Do you want to exclude trials where the participant made an error?
+* Do you want to exclude outliers (trials where participants responded implausibly quickly or unusually slowly)? 
+* You probably will want to get rid of the `practice` trials and keep only the `test` trials.
+
+
+```{r eval = FALSE}
+# APPLY YOUR KNOWLEDGE: 
+# Keeping in mind your criteria, fill in the blanks below (or modify the code as you see fit):
+
+result.rt <- stroop %>%                                
+  filter(rt < ##???##,
+         rt > ##???##,
+         exp_stage == ##???##,
+         correct == ##???##) %>%     
+  group_by(##???##) %>%                             
+  summarize(##???## = ##???##)
+
+result.rt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# My answer: 
+# result.rt <- stroop %>%                                
+#  filter(rt != -1,
+#         exp_stage == "test",
+#         correct == 1,
+#         rt > 250,
+#         rt < 500
+#         ) %>%     
+#  group_by(condition) %>%                             
+#  summarize(mean_rt = mean(rt))
+#
+# result.rt
+
+# (you might have noticed that `rt != -1` is actually encompassed within `correct == 1`, so it would actually be more parsimonious to just include the latter.)
+
+
+
+
+# APPLY YOUR KNOWLEDGE, PART 2
+# Now calculate mean accuracy (% correct) by condition. 
+# This time, what should you filter? What should you group by? What formula will you use to calculate accuracy within summarize()?
+
+result.acc <- stroop %>%                                
+  filter(##???##) %>%     
+  group_by(##???##) %>%                             
+  summarize(mean_accuracy = ##???##)
+
+result.acc
+
+
+
+
+
+
+
+
+
+
+
+
+
+# My answer: 
+# result.acc <- stroop %>%
+#  filter(exp_stage == "test") %>%     
+#  group_by(condition) %>%                             
+#  summarize(mean_accuracy = mean(correct) * 100)
+#
+# result.acc
+#
+```
+
+Finally, `select()` is a handy way to get rid of extraneous variables from your dataset. For instance, right now we may not care about the specific colors and words presented on each trial, or about the `possible_responses` that participants might have given. To make a new dataframe keeping only certain variables, we can specify what we want to keep:
+
+```{r dplyr_select}
+stroop2 <- stroop %>%
+  select(condition, correct, exp_stage, rt, worker_id)
+
+```
+
+
+## More (Quick) Plotting
+
+Above, we saw how to create boxplots and histograms with `qplot()`. 
+
+You can create a bar plot of count data with `qplot()` as well--below, we make one for correct and incorrect answers (excluding the practice trials):
+```{r}
+
+stroop.testtrials <- filter(stroop, exp_stage == "test") 
+qplot(x = correct, data = stroop.testtrials, geom = "bar")
+```
+
+This might be more interesting if we could look at condition differences. 
+
+We can `facet` graphs by a grouping variable. Let's facet the prior graph by `condition`: 
+
+```{r}
+qplot(x = correct, data = stroop.testtrials, geom = "bar", facets = .~condition)
+```
+
+
+(What's that `.~` about? You can facet by two variables at a time--if you only want one, you put `.` on one side of the `~`.)
+
+Here's an example of what faceting by two variables looks like: 
+
+```{r}
+# CHECK YOUR UNDERSTANDING: What's going on here?
+
+qplot(x = correct, data = stroop.testtrials, geom = "bar", facets = stim_color~stim_word)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# We've made a bar graph representing the counts of 'correct' and 'incorrect' trials, faceted by both the stimulus color (e.g., the colors Red, Blue, or Green) and the stimulus word (e.g., the words RED, BLUE, and GREEN). 
+
+# There are half as many trials in each of the cells representing 'incongruent' pairs compared to 'congruent' pairs. This is  because the study was designed so that overall half of the trials would be 'congruent' and half 'incongruent'. 
+```
+
+* Here's a [reference for all of `qplot()`'s options](http://www.statmethods.net/advgraphs/ggplot2.html), with examples. 
+
+Soon, though, you'll need the extra control and flexibility that only `ggplot()` can provide (e.g. for making a bar graph of condition means with error bars). 
+
+Tomorrow's tutorial will begin to introduce `ggplot()`, as well as topics like using functions to perform linear regression and t-tests.
+
+
+
+
+# A few extra resources 
+
+* To learn how to write R code with good style--that is, code that's readable and pleasant to look at--please read this brief [guide](http://adv-r.had.co.nz/Style.html).
+
+* Check out dplyr's [documentation](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) for more info on what you can do with dplyr (and how to do it).
+
+* For a reference guide to plotting data with ggplot, try the [R Cookbook](http://www.cookbook-r.com/Graphs/). Personally, I've found the author's published book, the _R Graphics Cookbook_, particularly helpful.  
+
+
