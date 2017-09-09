@@ -36,6 +36,17 @@ This has so many advantages over other ways of analyzing data!
 * You can easily give your script to other people as a guide for them to understand or help you with your analyses, build on your findings, reanalyze your data, attempt to replicate your studies, etc.
 * You can use version control on your analysis code (e.g., using [github](https://github.com/)), make your own functions and packages tailored to your own projects and needs, make web apps for visualizing your data, and even write entire manuscripts in the R/RStudio environment. Learning R can be a springboard for all of these skills and projects.
 
+### Okay but where am I? Where is my dataset?
+
+In RStudio, the default view shows you 4 windows:
+
+* By default, the upper left window in RStudio shows you tabs for all of the __R scripts__ (extension: .R) or __R Markdown files__ (extension: .rmd) that you currently have open. These are the places where you're storing your step-by-step guide for how to processes, analyze, plot, etc. your dataset. You can run lines of code from your script by highlighting them, and pressing COMMAND + ENTER on Mac, or CONTROL + ENTER on PC. If you're in an R Markdown document and want to run a whole chunk of code, you can press ALT + COMMAND + C on Mac, or ALT + CONTROL + C on PC.
+* The __console__ is (by default) in the lower left window of RStudio . This is where you can type in lines of code, run them, and see results printed out. It's like the screen of a calculator. When you run code from your script, it will show up here, along with its results and any warning or error messages.
+* In the upper right window of RStudio (by default), you can see your __environment__, which is where you'll see any datasets you've loaded as well as any other variables or objects you've created in the console. If you want to examine what these datasets (etc.) look like, you can click on them and they'll pop up in the upper left window! (You can also do this by using the `View()` function in the console.) This window also has a tab for viewing your __history__, i.e., all the commands you've run in the console, in order.
+* In the lower right window of RStudio (by default) are tabs for viewing your __files__ (showing you the same organization of files and folders that you'd see in Finder), your __plots__ that you create, any __packages__ you have loaded or want to load (more on this later), and the __help documentation__ for any functions you want to learn more about (more on this later, too!).
+
+(Note that you can change the layout of these windows if you want.)
+
 Let's get started!
 
 -----------------------------
@@ -46,8 +57,10 @@ R as calculator
 -----------------------------
 
 You can treat R like a calculator for basic computations. Just type some mathematical expression into the bottom pane--the  console--next to the `>` symbol, and hit enter. The result will be displayed on the following line.
+In an .rmd file (like this one) lines of code typically appear within ___"chunks"___- grey boxes that typically correspond to one "large" thing you are trying to do (e.g- "clean data" or "Test hypothesis 1"). You can enter "comments" (lines of text expalining to yourself/ other people who might see your code what's going on) by starting a line with a hashtag ("#"). The line will then be colored green and R will treat whatever comes after it as a text. It is highly recommended to comment on your code often. 
 
 ```{r basic_calculator}
+# Run the lines of code below- Do this with every chunk of cide in this tutorial, and try to predict what the result of running this line of code will be before hand.
 1 + 2
 13 / 2
 2 ^ 6
@@ -59,7 +72,13 @@ Where do the numbers go?
 
 When you evaluate an expression like `1 + 2` in the console, the result is displayed on the screen but doesn't get saved anywhere--just like on an ordinary calculator. Of course, R is a programming language, so it is much more powerful than a basic calculator. A major aspect of computing with R involves the assignment of values to *variables.*
   
- 
+#Use the chunk below to practice using R as a calculator 
+```{r basic_calculator practice}
+# Write a mathematical expression with at least three numbers
+
+# Write a mathematical expression with different opperations
+
+```
 
 -----------------------------
 
@@ -69,11 +88,11 @@ When you evaluate an expression like `1 + 2` in the console, the result is displ
 There are two (almost) equivalent ways to assign a value to a variable, using `=` and `<-`:
 
 ```{r variable_assignment_1}
-cohort_size = 14
-cohort_size <- 14
+cohort_size = 7
+cohort_size <- 7
 
 
-#NOTE: It is important not to confuse variable assignment with a statement about equality. In your head, you should say "set cohort_size to 14" or perhaps "cohort_size gets 14", but not "cohort_size is equal to 14". 
+#NOTE: It is important not to confuse variable assignment with a statement about equality. In your head, you should say "set cohort_size to 7" or perhaps "cohort_size gets 7", but not "cohort_size is equal to 7". 
 
 # Although using `=` to assign variables is the norm in many other programming languages, the standard in R is to use `<-`* for variable assignment as it makes the action that is being performed more obvious. 
 ```
@@ -81,7 +100,7 @@ cohort_size <- 14
 As you work on an R session you will produce a collection of “objects” held in the computer’s memory (or for the purposes of R, your "workspace"). Check the top-right pane in RStudio under 'environment' to view the objects that are currently stored in your workspace.
 
 
-You should see `cohort_size` is now one of these objects the computer is keeping track of, and its value is `14`.  It will remain stored as `14` unless and until you reassign `cohort_size`. 
+You should see `cohort_size` is now one of these objects the computer is keeping track of, and its value is `7`.  It will remain stored as `7` unless and until you reassign `cohort_size`. 
 
 
 ```{r variable_assignment_2}
@@ -109,7 +128,7 @@ cohort_size
 #
 ```
 
-Even though we added 2 to it, `cohort_size` is still set to 14, because we didn't reassign its value. 
+Even though we added 2 to it, `cohort_size` is still set to 7, because we didn't reassign its value. 
 
 Let's do that now:
 
@@ -205,7 +224,7 @@ cohort_size == "small"
 ```{r comparison_tests}
 2 < 3
 3 <= 3
-3 != 4
+3 != 4 #-> note: the sign "!=" means "not equal to"
 ```
 
 -----------------------------
@@ -259,10 +278,10 @@ a < b
 After assigning variables, we can now use them in calculations:
 ```{r calculate_with_variables}
 
-devo <- 2
-affective <- 4
+devo <- 0
+affective <- 1
 cog <- 1
-social <- 4
+social <- 2
 neuro <- 3
 
 
@@ -271,7 +290,7 @@ cohort_size # print the result
 
 
 # Of course, we can do completely arbitrary calculations with any of our variables too--R will oblige:
-apples <- (devo * (cog - neuro)^3 + social * devo + cohort_size + 12) / (cog - affective)
+apples <- (social * (cog - neuro)^3 + social * devo + cohort_size + 12) / (cog - affective)
 oranges <- -(3 * 2)
 
 apples == oranges 
@@ -295,7 +314,7 @@ subid <- 13
 subID <- 26
 subID == subid
 
-cohort_size == "Average"
+cohort_size = "average"
 ```
 
 R can be picky. 
@@ -376,12 +395,12 @@ We can use *functions* to perform more complex operations. Functions specify a t
 You *call* a function by writing its name followed by parentheses, with any arguments going inside the parentheses. There are some basic mathematical functions built into R that operate on numbers:
 
 ```{r math_functions}
-abs(-4)
-sqrt(64)
-log(1.75)
+abs(-4) # absolute value
+sqrt(64) # square root
+log(1.75) # natural log
 ```
 
-Let's look at the function `c()`, which stands for *concatenate*. This takes a sequence of arguments and sticks them together into a *vector*.  Vectors are immensely useful.
+Let's look at the function `c()`, which stands for *concatenate*. This takes a sequence of arguments and sticks them together into a *vector*.  Vectors are immensely useful- most of the built in functions for descriptive statistics (and there are many of these!) expect to receive a vector or something like it
 
 ```{r basic_vectors}
 # Create vectors for the forecasted high temperatures for San Francisco and Palo Alto over the next week:
@@ -533,7 +552,7 @@ temp_difference
 Sometimes it's useful to pull specific elements out of a vector. To do this, you *index* by writing the name of the vector and then adding square brackets (`[ ]`)  with the position of the item you want (starting at 1). 
 
 ```{r index_vector}
-snacks <- c("cookies", "ice cream", "cake", "chocolate bar", "gummi worms", "key lime pie")
+snacks <- c("cookies", "ice cream", "cake", "chocolate bar", "gummy worms", "key lime pie")
 snacks[3]
 ```
 
@@ -599,7 +618,7 @@ Every time you want to do something with a column in a data frame, you use the `
 ```{r get_a_column}
 albums$artist # pull out a specific vector
 
-albums$artist[albums$sales_millions > 10] # subset a variable based on a logical statement
+albums$artist[albums$sales_millions > 10] # subset a variable based on a logical statement. In this case, returns the artisits who issued albums with over 10 million in sales.
 
 ```
 
@@ -652,7 +671,7 @@ albums
 
 
 
-# You should have written something like:  albums$years_since_release <- 2016 - albums$year
+# You should have written something like:  albums$years_since_release <- 2017 - albums$year
 
 ```
 
@@ -740,7 +759,7 @@ R can write data frames to .csv files, which are easily opened by many different
 To begin, we first have to tell R where to save files.
 
 ### Setting your working directory
-Remember our discussion of working directories in the Terminal/BASH tutorial? The same general ideas apply here. Whenever you use R, you're in some *working directory*, where R will default to saving files (and searching for them when you try to open a file). 
+Whenever you use R, you're in some *working directory* (essentially a folder) , where R will default to saving files (and searching for them when you try to open a file). 
 
 Type `getwd()` to discover your current working directory.
 
@@ -1100,7 +1119,7 @@ This might be more interesting if we could look at condition differences.
 We can `facet` graphs by a grouping variable. Let's facet the prior graph by `condition`: 
 
 ```{r}
-qplot(x = correct, data = stroop.testtrials, geom = "bar", facets = .~condition)
+qplot(x = correct, data = stroop.testtrials, geom = "bar", facets =.~condition)
 ```
 
 
@@ -1133,10 +1152,173 @@ qplot(x = correct, data = stroop.testtrials, geom = "bar", facets = stim_color~s
 
 * Here's a [reference for all of `qplot()`'s options](http://www.statmethods.net/advgraphs/ggplot2.html), with examples. 
 
-Soon, though, you'll need the extra control and flexibility that only `ggplot()` can provide (e.g. for making a bar graph of condition means with error bars). 
 
-Tomorrow's tutorial will begin to introduce `ggplot()`, as well as topics like using functions to perform linear regression and t-tests.
+## More advanced plotting using ggplot
+qplot is helpful for very simple plotting. Most of the time we will want to plot more interesting/informative things. Plotting is an important skill that could help you make sense of your data and results as well as communicate findings efficiently. The package 'ggplop' is our main workhorse for plotting. Like dplyr, ggplot takes an object and adds "layers" to it. However, while dplyr use piping ("%>%") ggplot uses the plus sign ("+"). 
 
+The first argument is 'data=' -ggplot needs to know what dataset to work with. Then, 'aes()' tells ggplot what the basic "aesthetics" of the plot are. These include the x-axis, y-axis (when relevant) and color/fill settings (if we want lines or bars in different colors in their outlines or filled with different colors respectively).
+
+Let's use ggplot to recreate the box-plots for rt from the 'stroop' dataset.
+```{r ggplot_intro}
+ggplot(data=stroop, aes(x=condition, y=rt))
+
+#What's going on?
+
+
+
+
+
+
+
+
+
+# ggplot just produced the basic "outline" of the graph, but without any informative data because we did specify what we want to plot. 
+```
+
+Now let's add the boxplots by using '+' and 'geom_boxplot'.
+
+```{r ggplot_boxplot}
+ggplot(data=stroop, aes(x=condition, y=rt))+
+ geom_boxplot()
+```
+
+We can further distinguish between the two conditions by giving them different colors
+```{r ggplot_boxplot}
+ggplot(data=stroop, aes(x=condition, y=rt, color=condition))+
+ geom_boxplot()
+```
+
+One common type of graphs is a bar-plot for two means. We can do that with ggplot by using 'stat_summary()'. Within this function, we can specify which information we want on our x-axis, how do want our data to be represented and again set specific colors/ fills.
+
+Let's plot the average rt for each stimuli color. 
+
+```{r bar_plot_for_means}
+ggplot(data=stroop, aes(x=stim_word, y=rt, fill=stim_word))+
+stat_summary(fun.y="mean", geom="bar", color="black")
+
+```
+
+Bar plots can be misleading- the variance around the estimate (commonly known as an "error bar") is a useful way of starting to guage how representitive the mean is of the sample, as well as whether there might be substansive differences between groups. We can add an error bar by using the 'stat_summary()' function again.
+
+```{r adding_error_bars}
+ggplot(data=stroop, aes(x=stim_word, y=rt, fill=stim_word))+
+stat_summary(fun.y="mean", geom="bar", color="black")+
+stat_summary(fun.data=mean_cl_normal, geom="errorbar")
+
+#Does it look like rt might be different for different stimuli words? Why or why not? Why might that be an important question to ask ourselves?
+```
+* we can change the width of the error bar, but we will not get into that today.
+
+We can add labels to our x and y axes using 'xlab("???")' and ylab("???").
+```{r adding labels}
+ggplot(data=stroop, aes(x=stim_word, y=rt, fill=stim_word))+
+stat_summary(fun.y="mean", geom="bar", color="black")+
+stat_summary(fun.data=mean_cl_normal, geom="errorbar")+
+xlab("Reaction Time")+
+ylab("Stimulous Word")
+```
+
+``` {r bar_graph_practice}
+#CHECK YOURSELF: Try to create a bar plot for the average rt per condition, for test trials only. Label your axes "Reaction Time" and "Word-Color Match".
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#One option:
+ggplot(data=stroop.testtrials, aes(x=condition, y=rt, fill=condition))+
+  stat_summary(fun.y="mean", geom="bar", color="black")+
+  stat_summary(fun.data=mean_cl_normal, geom="errorbar")+
+  xlab=("Reaction TIme")+
+  ylab=("Word-Color Match")
+```
+
+Another common plot is a scatter plot, used to look at the relationship between two continous variables. Let's load a new dataset 'mtcars'. This dataset is built into R and contains information about 32 car models. 
+
+```{r load_mtcars}
+df=mtcars
+str(df)
+head(df)
+```
+
+We are interested in learning whether there is a relationship between cars weight (wt) and gas consumption (mpg). We can place each observation in our dataset on a single point, representing its location on the two axes. We do so with 'geom_point()'
+
+```{r geom_point}
+ggplot(data=df, aes(x=wt, y=mpg)+
+geom_point()
+
+#Does it seem like there is a relationship between the two? If so, what is it?
+
+```
+
+It looks like the more a car weighs, the lower is mpg is. We can add the __linear__ slope to the plot, to get a better idea. We do so with 'geom_smooth(method="lm")'. 
+```{r linear_slope}
+ggplot(data=df, aes(x=wt, y=mpg)+
+geom_point()+
+geom_smooth(method="lm")
+```
+
+Seems like there is quite a steep negative linear slope, which might increase our confidence in our initial intuition!
+Like we did before, we might be interested to know if this relationship is similar for different car categories, such as cars with 3,4 and 5 gears ('gear' variable in our dataframe). Try adding a 'color=' argument to 'aes()'
+
+```{r adding_group}
+ggplot(data=df, aes(x=wt, y=mpg, color=gear)+
+geom_point()+
+geom_smooth(method="lm")
+
+#What's wrong? What might be the problem?
+```
+
+*A note about variable types*
+The variable 'gear' is an integer, meaning that R thinks of it as continous. We can change a variable from continous to categorical using the function 'factor()'. It is recommended to create a new variable and not transform the existing one.
+```{r integer_to_factor}
+df$gear_cat=factor(df$gear)
+```
+Now try to create the plot again, using our new categorical variable.
+```{r adding_group_2}
+ggplot(data=df, aes(x=wt, y=mpg, color=gear)+
+geom_point()+
+geom_smooth(method="lm")
+
+#What kind of new information do we get with this plot?
+```
+
+We can learn quite a lot- for example, that the effect of weight on mpg might be stronger for cars with 4 and 5 gears than it is for cars with 3 gears. We can also learn that it seems like overall cars with 4 and 5 gears are lighter and have higher mpg. All these need to be formally tested of course. 
+
+```{r plotting_continous_practice}
+# PRACTICE- try plotting the relationship between cars horsepower (hp) and acceleration (qsec), and whether it seems to be differ depending on type of transmition (am). When am=0 the car is automatic, and when am=1 the car is manual. In addition, set the plots labels to be more informative. Write a sentence describing what you see in the plot.
+
+
+
+
+
+
+
+
+
+
+
+
+# My answer:
+df$am_cat=factor(df$am)
+ggplot(data=df, aes(x=hp, y=qsec, color=am_cat))+
+  geom_point()+
+  geom_smooth(method = "lm")+
+  xlab("Horsepower")+
+  ylab("Acceleration 
+       (quarter mile time)")
+```
 
 
 
